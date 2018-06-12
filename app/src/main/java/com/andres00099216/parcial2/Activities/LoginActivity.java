@@ -14,6 +14,7 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+
         Button Boton;
         Boton = findViewById(R.id.boton_entrar);
 
