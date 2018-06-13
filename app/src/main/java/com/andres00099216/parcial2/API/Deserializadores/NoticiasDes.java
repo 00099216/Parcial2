@@ -18,15 +18,50 @@ public class NoticiasDes implements JsonDeserializer<Item_new>{
     public Item_new deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         Item_new noticias = new Item_new();
 
-        JsonObject newsJsonObject = json.getAsJsonObject();
-        noticias.setId(newsJsonObject.get("id").getAsString());
-        noticias.setTitle(newsJsonObject.get("title").getAsString());
-        noticias.setBody(newsJsonObject.get("body").getAsString());
-        noticias.setGame(newsJsonObject.get("game").getAsString());
-        noticias.setCreate_date(newsJsonObject.get("created_date").getAsString());
+        JsonObject JObject = json.getAsJsonObject();
 
-        noticias.setCover_image(newsJsonObject.get("coverImage").getAsString());
-        noticias.setDescription(newsJsonObject.get("description").getAsString());
+        if (JObject.get("id") != null){
+            noticias.setId(JObject.get("id").getAsString());
+        }else {
+            noticias.setId("");
+        }
+
+        if (JObject.get("title") != null){
+            noticias.setTitle(JObject.get("title").getAsString());
+        }else {
+            noticias.setTitle("");
+        }
+
+        if (JObject.get("coverImage") != null){
+            noticias.setCoverImage(JObject.get("coverImage").getAsString());
+        }else {
+            noticias.setCoverImage("");
+        }
+
+        if (JObject.get("create_date") != null){
+            noticias.setCreate_date(JObject.get("created_date").getAsString());
+        }else {
+            noticias.setCreate_date("");
+        }
+
+        if (JObject.get("description") != null){
+            noticias.setDescription(JObject.get("description").getAsString());
+        }else {
+            noticias.setDescription("");
+        }
+
+        if (JObject.get("body") != null){
+            noticias.setBody(JObject.get("body").getAsString());
+        }else {
+            noticias.setBody("");
+        }
+
+        if (JObject.get("game") != null){
+            noticias.setGame(JObject.get("game").getAsString());
+        }else {
+            noticias.setGame("");
+        }
+
         return noticias;
 
     }
