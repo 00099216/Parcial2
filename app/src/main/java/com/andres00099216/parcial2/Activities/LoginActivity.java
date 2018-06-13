@@ -1,9 +1,12 @@
 package com.andres00099216.parcial2.Activities;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
@@ -21,6 +24,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+
+import static android.view.View.GONE;
 
 public class LoginActivity extends AppCompatActivity {
     private Button boton;
@@ -43,37 +48,45 @@ public class LoginActivity extends AppCompatActivity {
             Toast.makeText(this, "Fields can't be empty", Toast.LENGTH_SHORT).show();
 
         } else {
+
             Gson gson = new GsonBuilder().registerTypeAdapter(String.class, new TokenDes()).create();
             Retrofit.Builder builder = new Retrofit.Builder().baseUrl(NoticiasAPI.ENDPOINT).addConverterFactory(GsonConverterFactory.create(gson));
             Retrofit retrofit = builder.build();
-            NoticiasAPI apiGameNews = retrofit.create(NoticiasAPI.class);
+            NoticiasAPI noticiasApi = retrofit.create(NoticiasAPI.class);
 
-            Call<String> stringCall = apiGameNews.token(usuario.getText().toString(), usuario.getText().toString());
-
-            stringCall.enqueue(new Callback<String>() {
+            Call<String> stringCall = noticiasApi.token(usuario.getText().toString(), contraseña.getText().toString());
+            stringCall.enqueue(new Callback <String>() {
                 @Override
                 public void onResponse(Call<String> call, Response<String> response) {
-                    if (response.isSuccessful() && !response.body().equals("")) {
-
+                    System.out.println(response.code());
+                    if (response.code() == 200) {
+                        Toast.makeText(LoginActivity.this, "Exito", Toast.LENGTH_SHORT).show();
+                        TokenGuardado(response.body());
                         startMainActivity();
-                    } else {
-                        Toast.makeText(LoginActivity.this, "Error: check later", Toast.LENGTH_SHORT).show();
+                    }else if (response.code() == 401){
+
+                        Toast.makeText(LoginActivity.this, "Error: wrong credentials", Toast.LENGTH_SHORT).show();
                     }
+                else {
+
+                    Toast.makeText(LoginActivity.this, "Error: check later", Toast.LENGTH_SHORT).show();
+                }
                 }
 
                 @Override
                 public void onFailure(Call<String> call, Throwable t) {
                     if (t instanceof SocketTimeoutException) {
-
-                        Toast.makeText(LoginActivity.this, "Timed Out", Toast.LENGTH_SHORT).show();
-                    } else if (t instanceof Exception) {
-                        Toast.makeText(LoginActivity.this, "There was an error. \n Please try again later", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Time out", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
-
         }
 
+    }    private void TokenGuardado(String token) {
+        SharedPreferences preferences = getSharedPreferences("log", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("token", token);
+        editor.commit();
     }
 
 
