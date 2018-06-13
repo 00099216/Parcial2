@@ -7,11 +7,11 @@ import java.util.Date;
  */
 
 public class Item_new {
-    private int id;
+    private String id;
     private String title;
     private String description;
     private String coverImage;
-    private Date create_date;
+    private String create_date;
     private String body;
     private String game;
 
@@ -19,11 +19,11 @@ public class Item_new {
     public Item_new() {
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
