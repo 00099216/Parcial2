@@ -22,11 +22,15 @@ import java.util.List;
  * Created by Andres on 14/6/2018.
  */
 
-public abstract  class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.ViewHolder> {
+public class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.ViewHolder> {
 
     private Transformation transformation;
     private Context context;
     private List<NoticiaEnt> newList;
+
+    public NoticaAdapter(Context context) {
+        this.context = context;
+    }
 
 
     public class ViewHolder extends RecyclerView.ViewHolder {
@@ -58,13 +62,13 @@ public abstract  class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoticiaEnt newAux = newList.get(holder.getAdapterPosition());
 
-        NoticiaEnt news = null;
 
-        holder.titulo.setText(news.getNotTittle());
-        holder.descripcion.setText(news.getNotDescription());
 
-        if (!(news.getNotCoverImage() == null)) {
-            Picasso.get().load(news.getNotCoverImage())
+        holder.titulo.setText(newAux.getNotTittle());
+        holder.descripcion.setText(newAux.getNotDescription());
+
+        if (!(newAux.getNotCoverImage() == null)) {
+            Picasso.get().load(newAux.getNotCoverImage())
                     .error(R.drawable.ic_launcher_background)
                     .into(holder.imagen);
 
@@ -79,6 +83,14 @@ public abstract  class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.
 
     @Override
     public int getItemCount() {
-        return 0;
+        if (newList == null){
+            return 0;
+        }else {
+            return newList.size();
+        }
+    }
+    public void setNewsList(List<NoticiaEnt> newsList){
+        this.newList = newsList;
+        notifyDataSetChanged();
     }
 }
