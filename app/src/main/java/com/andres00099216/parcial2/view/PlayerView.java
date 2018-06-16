@@ -15,18 +15,20 @@ import java.util.List;
  */
 
 public class PlayerView extends AndroidViewModel {
-    private PlayerRepo repository;
+    PlayerRepo playerRepositoy;
 
     public PlayerView(@NonNull Application application) {
         super(application);
-        repository=new PlayerRepo(application);
+
+        playerRepositoy = new PlayerRepo(application);
+    }
+
+
+    public LiveData<List<PlayerEnt>> getAllPlayers(){
+        return playerRepositoy.getPlayer();
     }
 
     public LiveData<List<PlayerEnt>> getPlayersByGame(String game){
-        return repository.getPlayer(game);
-    }
-
-    public void insert(PlayerEnt playerEntity){
-        repository.insert(playerEntity);
+        return playerRepositoy.getPlayersByGame(game);
     }
 }

@@ -13,19 +13,19 @@ import java.util.List;
 
 @Dao
 public interface NoticiaDao {
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(NoticiaEnt... noticias);
 
     @Update
     void update(NoticiaEnt... noticias);
 
-    @Query("SELECT * FROM NoticiaEnt")
+    @Query("SELECT * FROM NoticiaEnt ORDER BY notCreateDate DESC")
     LiveData<List<NoticiaEnt>> getAllNews();
 
-    @Query("SELECT * FROM NoticiaEnt WHERE notGame =:n_game")
+    @Query("SELECT * FROM NoticiaEnt WHERE notGame like :n_game")
     LiveData<List<NoticiaEnt>> getNewsByGameName(String n_game);
 
-    @Query("SELECT * FROM NoticiaEnt WHERE notTittle =:n_title")
+    @Query("SELECT * FROM NoticiaEnt WHERE notTittle like :n_title")
     LiveData<List<NoticiaEnt>> getNewsByTitle(String n_title);
 }
 

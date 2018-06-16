@@ -5,6 +5,7 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.andres00099216.parcial2.db.Entidades.PlayerEnt;
 import com.andres00099216.parcial2.db.daos.NoticiaDao;
 import com.andres00099216.parcial2.db.Entidades.NoticiaEnt;
 import com.andres00099216.parcial2.db.daos.PlayerDao;
@@ -14,7 +15,7 @@ import com.andres00099216.parcial2.db.daos.PlayerDao;
  */
 
 @Database(
-        entities = {NoticiaEnt.class}, exportSchema =  false, version = 1
+        entities = {NoticiaEnt.class, PlayerEnt.class}, exportSchema =  false, version = 1
             )
 public abstract class db extends RoomDatabase {
 

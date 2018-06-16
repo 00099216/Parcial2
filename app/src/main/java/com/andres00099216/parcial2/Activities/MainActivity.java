@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
         //Se crea el fragmento de noticias
-        Fragment fragment = new NoticiaFragmento();
+        Fragment fragment = NoticiaFragmento.newInstance(0, "");
         getSupportFragmentManager().beginTransaction().replace(R.id.contentLayout, fragment).commit();
         getSupportActionBar().setTitle("Noticias");
 

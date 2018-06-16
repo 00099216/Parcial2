@@ -16,8 +16,11 @@ import java.util.List;
 @Dao
 public interface PlayerDao {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertPlayer(PlayerEnt[] playerEntity);
+    void insertPlayer(PlayerEnt ... playerEntity);
 
-    @Query("SELECT*FROM PlayerEntity WHERE game=:game")
-    LiveData<List<PlayerEnt>> getPlayer(String game);
+    @Query("SELECT*FROM PlayerEnt")
+    LiveData<List<PlayerEnt>> getPlayer();
+
+    @Query("SELECT * FROM PlayerEnt WHERE juego =:p_game")
+    LiveData<List<PlayerEnt>> getPlayersByGame(String p_game);
 }

@@ -12,13 +12,16 @@ public class PlayerEnt {
     @NonNull
     @PrimaryKey
     private String id;
-    private String avatar, nombre, desc, juego;
+    private String nombre;
+    private String desc;
+    private String avatar;
+    private String juego;
 
-    public PlayerEnt(@NonNull String id, String avatar, String nombre, String desc, String juego) {
+    public PlayerEnt(@NonNull String id, String nombre, String desc, String avatar, String juego) {
         this.id = id;
-        this.avatar = avatar;
         this.nombre = nombre;
         this.desc = desc;
+        this.avatar = avatar;
         this.juego = juego;
     }
 

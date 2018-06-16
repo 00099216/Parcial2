@@ -16,15 +16,30 @@ import java.util.List;
 
 public class NoticiaView extends AndroidViewModel {
 
-
-    private NoticiasRepo Nrepo;
+    private NoticiasRepo newsRepository;
 
     public NoticiaView (@NonNull Application application) {
         super(application);
-        Nrepo = new NoticiasRepo(application);
+        newsRepository = new NoticiasRepo(application);
+    }
+
+    public void insert(NoticiaEnt newsEntity){
+        newsRepository.insert(newsEntity);
+    }
+
+    public void update(NoticiaEnt newsEntity){
+        newsRepository.insert(newsEntity);
     }
 
     public LiveData<List<NoticiaEnt>> getAllNewsList() {
-        return Nrepo.getAllNews();
+        return newsRepository.getAllNews();
+    }
+
+    public LiveData<List<NoticiaEnt>> getNewsByGame(String game_name) {
+        return newsRepository.getNewsByGameName(game_name);
+    }
+
+    public LiveData<List<NoticiaEnt>> getNewsByTitle(String news_title) {
+        return newsRepository.getNewsByTitle(news_title);
     }
 }

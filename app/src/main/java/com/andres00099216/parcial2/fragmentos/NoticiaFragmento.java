@@ -20,6 +20,7 @@ import com.andres00099216.parcial2.db.Entidades.NoticiaEnt;
 import com.andres00099216.parcial2.modelo.Item_new;
 import com.andres00099216.parcial2.view.NoticiaView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -31,14 +32,16 @@ public class NoticiaFragmento extends Fragment {
     private RecyclerView recyclerView;
     private NoticaAdapter newsAdapter;
     private GridLayoutManager gridLayoutManager;
-    private String token;
+    private String token, game;
+    private int type;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("logged", Context.MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "");
         setHasOptionsMenu(true);
+
+        type = getArguments().getInt("type");
+        game = getArguments().getString("game");
     }
 
     @Nullable
@@ -60,21 +63,36 @@ public class NoticiaFragmento extends Fragment {
         recyclerView.setLayoutManager(gridLayoutManager);
         recyclerView.setAdapter(newsAdapter);
 
-        newsViewModel.getAllNewsList().observe(this, new Observer<List<NoticiaEnt>>() {
-            @Override
-            public void onChanged(@Nullable List<NoticiaEnt> newsEntities) {
-                newsAdapter.setNewsList(newsEntities);
-            }
+        newsViewModel.getAllNewsList().observe(this, newsEntities -> {
+            newsAdapter.setNewsList(filterNews(newsEntities));
         });
         return view;
     }
 
-    private List<Item_new> orderNewsList(List<Item_new> newsList) {
-        List<Item_new> orderedNewsList = newsList;
-        return orderedNewsList;
+    private List<NoticiaEnt> filterNews(List<NoticiaEnt> newsEntitiesList) {
+        List<NoticiaEnt> filteredNewsList = new ArrayList<>();
+        if (type == 0) {
+            return newsEntitiesList;
+        } else if (type == 1) {
+            return newsEntitiesList;
+        } else {
+            for (NoticiaEnt newsEntity : newsEntitiesList) {
+                if (newsEntity.getNotGame().equals(game)) {
+                    filteredNewsList.add(newsEntity);
+                }
+            }
+            return filteredNewsList;
+        }
     }
 
-    public NoticiaFragmento() {
+    public static NoticiaFragmento newInstance(int type, String game) {
+        Bundle arguments = new Bundle();
+        arguments.putInt("type", type);
+        arguments.putString("game", game);
+
+        NoticiaFragmento newsFragment = new NoticiaFragmento();
+        newsFragment.setArguments(arguments);
+        return newsFragment;
     }
 
 }

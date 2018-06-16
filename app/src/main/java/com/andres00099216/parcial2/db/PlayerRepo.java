@@ -13,7 +13,7 @@ import com.andres00099216.parcial2.API.Deserializadores.PlayerDes;
 import com.andres00099216.parcial2.API.NoticiasAPI;
 import com.andres00099216.parcial2.db.Entidades.PlayerEnt;
 import com.andres00099216.parcial2.db.daos.PlayerDao;
-import com.andres00099216.parcial2.modelo.item_player;
+import com.andres00099216.parcial2.modelo.Item_player;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -51,22 +51,25 @@ public class PlayerRepo {
 
     }
 
-    public LiveData<List<PlayerEnt>> getPlayer(String game){
-        return playerDAO.getPlayer(game);
+    public LiveData<List<PlayerEnt>> getPlayer(){
+        return playerDAO.getPlayer();
+    }
+    public LiveData<List<PlayerEnt>> getPlayersByGame(String game){
+        return playerDAO.getPlayersByGame(game);
     }
 
     public void getPlayersFromAPI(){
-        Gson gson = new GsonBuilder().registerTypeAdapter(item_player.class, new PlayerDes()).create();
+        Gson gson = new GsonBuilder().registerTypeAdapter(Item_player.class, new PlayerDes()).create();
         Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(NoticiasAPI.ENDPOINT).addConverterFactory(GsonConverterFactory.create(gson));
         Retrofit retrofit = retrofitBuilder.build();
         NoticiasAPI apiGameNews = retrofit.create(NoticiasAPI.class);
 
-        Call<List<item_player>> playersListCall = apiGameNews.getItemPlayer("Beared " + token);
-        playersListCall.enqueue(new Callback<List<item_player>>() {
+        Call<List<Item_player>> playersListCall = apiGameNews.getItemPlayer("Beared " + token);
+        playersListCall.enqueue(new Callback<List<Item_player>>() {
             @Override
-            public void onResponse(Call<List<item_player>> call, Response<List<item_player>> response) {
+            public void onResponse(Call<List<Item_player>> call, Response<List<Item_player>> response) {
                 if (response.code() == 200){
-                    for (item_player players : response.body()){
+                    for (Item_player players : response.body()){
                         insert(new PlayerEnt(players.getId(), players.getAvatar(), players.getName(), players.getBiografia(), players.getJuego()));
                     }
                 }else if (response.code() == 401){
@@ -75,7 +78,7 @@ public class PlayerRepo {
             }
 
             @Override
-            public void onFailure(Call<List<item_player>> call, Throwable t) {
+            public void onFailure(Call<List<Item_player>> call, Throwable t) {
 
             }
 
@@ -95,8 +98,8 @@ public class PlayerRepo {
         }
 
         @Override
-        protected Void doInBackground(PlayerEnt... playerEntities) {
-            myAsyncTaskPlayerDAO.insertPlayer(playerEntities);
+        protected Void doInBackground(PlayerEnt... playerEntity) {
+            myAsyncTaskPlayerDAO.insertPlayer(playerEntity);
             return null;
         }
     }

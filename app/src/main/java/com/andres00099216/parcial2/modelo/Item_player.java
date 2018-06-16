@@ -4,7 +4,7 @@ package com.andres00099216.parcial2.modelo;
  * Created by Andres on 15/6/2018.
  */
 
-public class item_player {
+public class Item_player {
     private String avatar;
     private String id;
     private  String name;
