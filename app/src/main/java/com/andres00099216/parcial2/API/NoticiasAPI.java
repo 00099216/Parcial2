@@ -1,6 +1,7 @@
 package com.andres00099216.parcial2.API;
 
 import com.andres00099216.parcial2.modelo.Item_new;
+import com.andres00099216.parcial2.modelo.item_player;
 
 import java.util.List;
 
@@ -20,6 +21,8 @@ public interface NoticiasAPI {
 
     @GET("/news")
     Call<List<Item_new>> getItemNoticias(@Header("Authorization") String authorization);
+    @GET("/players")
+    Call<List<item_player>> getItemPlayer(@Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @POST("/login")

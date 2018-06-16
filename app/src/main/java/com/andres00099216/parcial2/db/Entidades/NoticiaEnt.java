@@ -16,7 +16,7 @@ public class NoticiaEnt {
     private String notTittle, notCoverImage, notCreateDate, notDescription, notBody, notGame;
 
 
-    public NoticiaEnt(@NonNull String notId, @NonNull String notTittle, @NonNull String notCoverImage, @NonNull String notCreateDate, @NonNull String notDescription, @NonNull String notBody, @NonNull String notGame) {
+    public NoticiaEnt(@NonNull String notId, String notTittle, String notCoverImage, String notCreateDate, String notDescription, String notBody, String notGame) {
         this.notId = notId;
         this.notTittle = notTittle;
         this.notCoverImage = notCoverImage;

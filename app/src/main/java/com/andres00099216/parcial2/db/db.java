@@ -7,6 +7,7 @@ import android.content.Context;
 
 import com.andres00099216.parcial2.db.daos.NoticiaDao;
 import com.andres00099216.parcial2.db.Entidades.NoticiaEnt;
+import com.andres00099216.parcial2.db.daos.PlayerDao;
 
 /**
  * Created by Andres on 13/6/2018.
@@ -34,5 +35,6 @@ public abstract class db extends RoomDatabase {
     }
 
     public abstract NoticiaDao NoticiaDao();
+    public abstract PlayerDao playerDao();
 
 }
