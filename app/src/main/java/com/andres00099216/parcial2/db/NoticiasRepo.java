@@ -52,7 +52,7 @@ public class NoticiasRepo {
                 System.out.println(response.code());
                 for (Item_new noticia : response.body()) {
                     insert(new NoticiaEnt(noticia.getId(), noticia.getTitle(), noticia.getCoverImage(), noticia.getCreate_date(),
-                            noticia.getDescription(), noticia.getBody(), noticia.getGame(), 0));
+                            noticia.getDescription(), noticia.getBody(), noticia.getGame()));
                 }
             }
 

@@ -18,12 +18,13 @@ import retrofit2.http.POST;
 public interface NoticiasAPI {
     String ENDPOINT = "http://gamenewsuca.herokuapp.com";
 
+    @GET("/news")
+    Call<List<Item_new>> getItemNoticias(@Header("Authorization") String authorization);
 
     @FormUrlEncoded
     @POST("/login")
     Call<String> token(@Field("user") String username, @Field("password") String password);
 
-    @GET("/news")
-    Call<List<Item_new>> getItemNoticias(@Header("Authorization") String authorization);
+
 
 }

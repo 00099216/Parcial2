@@ -16,13 +16,8 @@ public class TokenDes implements JsonDeserializer<String> {
 
         @Override
         public String deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-
-            String token = "";
-
-            if (json.getAsJsonObject() != null){
-                JsonObject tokenJson = json.getAsJsonObject();
-                token = tokenJson.get("token").getAsString();
-            }
+            JsonObject tokenJson = json.getAsJsonObject();
+            String token = tokenJson.get("token").getAsString();
 
             return token;
     }

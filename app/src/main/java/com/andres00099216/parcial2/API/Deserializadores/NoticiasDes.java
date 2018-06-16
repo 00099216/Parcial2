@@ -20,8 +20,8 @@ public class NoticiasDes implements JsonDeserializer<Item_new>{
 
         JsonObject JObject = json.getAsJsonObject();
 
-        if (JObject.get("id") != null){
-            noticias.setId(JObject.get("id").getAsString());
+        if (JObject.get("_id") != null){
+            noticias.setId(JObject.get("_id").getAsString());
         }else {
             noticias.setId("");
         }

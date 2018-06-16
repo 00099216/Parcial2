@@ -14,10 +14,10 @@ import java.util.List;
 @Dao
 public interface NoticiaDao {
     @Insert
-    void insert(NoticiaEnt... news);
+    void insert(NoticiaEnt... noticias);
 
     @Update
-    void update(NoticiaEnt... news);
+    void update(NoticiaEnt... noticias);
 
     @Query("SELECT * FROM NoticiaEnt")
     LiveData<List<NoticiaEnt>> getAllNews();

@@ -52,17 +52,12 @@ public class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.ViewHolder
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false);
-        context = parent.getContext();
-        return new ViewHolder(view);
-
+        return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_cardview, parent, false));
     }
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         NoticiaEnt newAux = newList.get(holder.getAdapterPosition());
-
-
 
         holder.titulo.setText(newAux.getNotTittle());
         holder.descripcion.setText(newAux.getNotDescription());

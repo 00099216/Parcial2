@@ -14,9 +14,9 @@ public class NoticiaEnt {
     @PrimaryKey
     private String notId;
     private String notTittle, notCoverImage, notCreateDate, notDescription, notBody, notGame;
-    private int notFav;
 
-    public NoticiaEnt(@NonNull String notId, @NonNull String notTittle, @NonNull String notCoverImage, @NonNull String notCreateDate, @NonNull String notDescription, @NonNull String notBody, @NonNull String notGame, @NonNull int notFav) {
+
+    public NoticiaEnt(@NonNull String notId, @NonNull String notTittle, @NonNull String notCoverImage, @NonNull String notCreateDate, @NonNull String notDescription, @NonNull String notBody, @NonNull String notGame) {
         this.notId = notId;
         this.notTittle = notTittle;
         this.notCoverImage = notCoverImage;
@@ -24,7 +24,7 @@ public class NoticiaEnt {
         this.notDescription = notDescription;
         this.notBody = notBody;
         this.notGame = notGame;
-        this.notFav = notFav;
+
     }
 
 
@@ -91,12 +91,5 @@ public class NoticiaEnt {
     }
 
 
-    public int getNotFav() {
-        return notFav;
-    }
-
-    public void setNotFav(int notFav) {
-        this.notFav = notFav;
-    }
 }
 

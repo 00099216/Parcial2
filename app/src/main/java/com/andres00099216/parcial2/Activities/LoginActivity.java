@@ -84,7 +84,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }    private void TokenGuardado(String token) {
-        SharedPreferences preferences = getSharedPreferences("log", Context.MODE_PRIVATE);
+        SharedPreferences preferences = this.getSharedPreferences("logged", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = preferences.edit();
         editor.putString("token", token);
         editor.commit();
