@@ -19,14 +19,14 @@ public class GameDes implements JsonDeserializer<List<String>> {
     @Override
     public List<String> deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
 
-        List<String> gameList = new ArrayList<>();
+        List<String> lista = new ArrayList<>();
 
         JsonArray gameJsonArray = json.getAsJsonArray();
 
         for (JsonElement element : gameJsonArray){
-            gameList.add(element.getAsString());
+            lista.add(element.getAsString());
         }
 
-        return gameList;
+        return lista;
     }
 }

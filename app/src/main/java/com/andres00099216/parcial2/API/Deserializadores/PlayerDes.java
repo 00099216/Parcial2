@@ -1,6 +1,6 @@
 package com.andres00099216.parcial2.API.Deserializadores;
 
-import com.andres00099216.parcial2.modelo.Item_player;
+import com.andres00099216.parcial2.modelo.item_player;
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;
 import com.google.gson.JsonElement;
@@ -13,11 +13,11 @@ import java.lang.reflect.Type;
  * Created by Andres on 15/6/2018.
  */
 
-public class PlayerDes implements JsonDeserializer<Item_player> {
+public class PlayerDes implements JsonDeserializer<item_player> {
 
     @Override
-    public Item_player deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
-        Item_player player = new Item_player();
+    public item_player deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        item_player player = new item_player();
 
         JsonObject playerJsonObject = json.getAsJsonObject();
 

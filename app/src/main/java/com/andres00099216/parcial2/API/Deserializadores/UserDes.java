@@ -30,10 +30,7 @@ public class UserDes implements JsonDeserializer<Item_user> {
         user.setUsername(userJson.get("user").getAsString());
         user.setPassword(userJson.get("password").getAsString());
 
-        JsonElement newsJsonElement = userJson.get("favoriteNews");
-        JsonArray newsJsonArray = newsJsonElement.getAsJsonArray();
 
-        //user.setFavoriteNews(getFavoriteNewsList(newsJsonArray));
 
         return user;
     }
