@@ -10,9 +10,9 @@ import java.util.Locale;
  * Created by Andres on 16/6/2018.
  */
 
-public class filto {
+public class Ordenar {
     @TypeConverter
-    public static Integer filto(String rawDate){
+    public static Integer Orden(String rawDate) {
         int finalDate;
         if (rawDate != null) {
             DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'", Locale.US);

@@ -24,11 +24,11 @@ public class PlayerView extends AndroidViewModel {
     }
 
 
-    public LiveData<List<PlayerEnt>> getAllPlayers(){
-        return playerRepositoy.getPlayer();
+    public LiveData<List<PlayerEnt>> getAllPlayers() {
+        return playerRepositoy.getAllPlayers();
     }
 
-    public LiveData<List<PlayerEnt>> getPlayersByGame(String game){
+    public LiveData<List<PlayerEnt>> getPlayersByGame(String game) {
         return playerRepositoy.getPlayersByGame(game);
     }
 }

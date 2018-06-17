@@ -6,15 +6,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.andres00099216.parcial2.R;
 import com.andres00099216.parcial2.db.Entidades.NoticiaEnt;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-import com.squareup.picasso.Transformation;
 
 import java.util.List;
 
@@ -22,31 +19,13 @@ import java.util.List;
  * Created by Andres on 14/6/2018.
  */
 
-public class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.ViewHolder> {
+public abstract class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.ViewHolder> {
 
-    private Transformation transformation;
     private Context context;
-    private List<NoticiaEnt> newList;
+    private List<NoticiaEnt> list;
 
     public NoticaAdapter(Context context) {
         this.context = context;
-    }
-
-
-    public class ViewHolder extends RecyclerView.ViewHolder {
-
-        TextView titulo;
-        TextView descripcion;
-        ImageView imagen;
-        ImageButton favorito;
-        public ViewHolder(View itemView) {
-            super(itemView);
-
-            imagen = itemView.findViewById(R.id.imagen_noticia);
-            favorito = itemView.findViewById(R.id.boton_favoritos);
-            descripcion= itemView.findViewById(R.id.descripcion_noticia);
-            titulo  = itemView.findViewById(R.id.titulo_noticia);
-        }
     }
 
     @NonNull
@@ -57,35 +36,55 @@ public class NoticaAdapter extends RecyclerView.Adapter<NoticaAdapter.ViewHolder
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        NoticiaEnt newAux = newList.get(holder.getAdapterPosition());
+        NoticiaEnt news = list.get(position);
 
-        holder.titulo.setText(newAux.getNotTittle());
-        holder.descripcion.setText(newAux.getNotDescription());
+        holder.title = news.getNotTittle();
+        holder.image = news.getNotCoverImage();
+        holder.description = news.getNotDescription();
+        holder.body = news.getNotBody();
 
-        if (!(newAux.getNotCoverImage() == null)) {
-            Picasso.get().load(newAux.getNotCoverImage())
-                    .error(R.drawable.ic_launcher_background)
-                    .into(holder.imagen);
+        holder.titulo.setText(holder.title);
 
+        if (news.getNotCoverImage() != null) {
+            Picasso.get().load(news.getNotCoverImage()).error(R.drawable.ic_launcher_background).into(holder.cover);
         } else {
-            Picasso.get()
-                    .load(R.drawable.ic_launcher_background)
-                    .error(R.drawable.ic_launcher_background)
-                    .into(holder.imagen);
+            Picasso.get().load(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).into(holder.cover);
         }
+        holder.desc.setText(holder.description);
 
     }
 
     @Override
     public int getItemCount() {
-        if (newList == null){
+        if (list == null) {
             return 0;
-        }else {
-            return newList.size();
+        } else {
+            return list.size();
         }
     }
-    public void setNewsList(List<NoticiaEnt> newsList){
-        this.newList = newsList;
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView titulo, desc;
+        private ImageView cover;
+
+
+        private String title, image, description, body;
+
+        public ViewHolder(View itemView) {
+            super(itemView);
+
+            cover = itemView.findViewById(R.id.imagen_noticia);
+            titulo = itemView.findViewById(R.id.titulo_noticia);
+            desc = itemView.findViewById(R.id.descripcion_noticia);
+
+        }
+    }
+
+    public void setList(List<NoticiaEnt> list) {
+        this.list = list;
         notifyDataSetChanged();
     }
+
+
 }

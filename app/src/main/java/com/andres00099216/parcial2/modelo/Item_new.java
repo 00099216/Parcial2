@@ -1,7 +1,5 @@
 package com.andres00099216.parcial2.modelo;
 
-import java.util.Date;
-
 /**
  * Created by Andres on 3/6/2018.
  */

@@ -19,12 +19,17 @@
             <ImageView
                 android:id="@+id/imagen_noticia"
                 android:layout_width="match_parent"
-                android:layout_height="150dp" />
+                android:layout_height="150dp"
+                android:scaleType="centerCrop"/>
 
             <TextView
                 android:id="@+id/titulo_noticia"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:gravity="center"
+                android:lines="1"
+                android:textSize="25sp"
                 android:text="Titulo" />
 
             <LinearLayout
@@ -36,15 +41,12 @@
                     android:id="@+id/descripcion_noticia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:ellipsize="end"
+                    android:lines="2"
+                    android:textSize="17sp"
                     android:text="Description" />
 
-                <ImageButton
-                    android:id="@+id/boton_favoritos"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_gravity="right"
-                    android:background="#00000000"
-                    android:src="@drawable/favo" />
+
             </LinearLayout>
         </LinearLayout>
     </android.support.v7.widget.CardView>

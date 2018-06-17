@@ -5,17 +5,21 @@ import android.arch.persistence.room.Room;
 import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
 
+import com.andres00099216.parcial2.db.Entidades.GameEnt;
 import com.andres00099216.parcial2.db.Entidades.PlayerEnt;
+import com.andres00099216.parcial2.db.Entidades.UserEnt;
+import com.andres00099216.parcial2.db.daos.GameDao;
 import com.andres00099216.parcial2.db.daos.NoticiaDao;
 import com.andres00099216.parcial2.db.Entidades.NoticiaEnt;
 import com.andres00099216.parcial2.db.daos.PlayerDao;
+import com.andres00099216.parcial2.db.daos.UserDao;
 
 /**
  * Created by Andres on 13/6/2018.
  */
 
 @Database(
-        entities = {NoticiaEnt.class, PlayerEnt.class}, exportSchema =  false, version = 1
+        entities = {NoticiaEnt.class, PlayerEnt.class, UserEnt.class, GameEnt.class}, exportSchema =  false, version = 1
             )
 public abstract class db extends RoomDatabase {
 
@@ -37,5 +41,6 @@ public abstract class db extends RoomDatabase {
 
     public abstract NoticiaDao NoticiaDao();
     public abstract PlayerDao playerDao();
+    public abstract GameDao gameDao();
 
 }

@@ -18,9 +18,9 @@ import java.util.List;
 public interface GameDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(GameEnt... games);
+    void insert(GameEnt... juegos);
 
-    @Query("SELECT * FROM GameEntity")
-    LiveData<List<GameEnt>> getAllGames();
+    @Query("SELECT * FROM GameEnt")
+    LiveData<List<GameEnt>> getJuegos();
 
 }

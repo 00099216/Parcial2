@@ -21,7 +21,7 @@ import java.util.List;
 
 public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder> {
     private Context context;
-    private List<PlayerEnt> playerList;
+    private List<PlayerEnt> list;
 
     public PlayerAdapter(Context context) {
         this.context = context;
@@ -31,41 +31,51 @@ public class PlayerAdapter extends RecyclerView.Adapter<PlayerAdapter.ViewHolder
     @Override
     public PlayerAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         return new ViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_player_cardview, parent, false));
-
     }
 
     @Override
     public void onBindViewHolder(@NonNull PlayerAdapter.ViewHolder holder, int position) {
-        PlayerEnt player= playerList.get(position);
-        holder.textView.setText(player.getNombre());
-        if (player.getAvatar() != null)
-            Picasso.get().load(player.getAvatar()).error(R.drawable.ic_launcher_background).into(holder.imageView);
-        else
-            Picasso.get().load(R.drawable.ic_launcher_background).error(R.drawable.ic_launcher_background).into(holder.imageView);
+        PlayerEnt playerEntity = list.get(position);
 
+        holder.player_name.setText(playerEntity.getDesc());
+        holder.player_bio.setText(playerEntity.getJuego());
+
+        if (playerEntity.getNombre() != null) {
+            Picasso.get().load(playerEntity.getNombre()).error(R.drawable.
+                    ic_launcher_background).into(holder.player_avatar);
+        } else {
+            Picasso.get().load(R.drawable.ic_launcher_background).
+                    error(R.drawable.ic_launcher_background).into(holder.player_avatar);
+        }
 
     }
 
     @Override
     public int getItemCount() {
-        if (playerList == null){
+        if (list == null) {
             return 0;
-        }else {
-            return playerList.size();
+        } else {
+            return list.size();
         }
-    }
-    public void setPlayerList(List<PlayerEnt> playerEntitiesList){
-        this.playerList = playerEntitiesList;
+
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        private ImageView imageView;
-        private TextView textView;
+
+        ImageView player_avatar;
+        TextView player_name, player_bio;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            imageView = itemView.findViewById(R.id.player_foto);
-            textView = itemView.findViewById(R.id.player_description);
+
+            player_avatar = itemView.findViewById(R.id.imageView_playerCardViewImage);
+            player_name = itemView.findViewById(R.id.textView_playerCardViewName);
+            player_bio = itemView.findViewById(R.id.textView_playerCardViewBio);
         }
+
+    }
+
+    public void setList(List<PlayerEnt> playerEntitiesList) {
+        this.list = playerEntitiesList;
     }
 }

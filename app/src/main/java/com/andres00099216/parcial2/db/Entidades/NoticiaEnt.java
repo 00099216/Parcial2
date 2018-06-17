@@ -13,10 +13,12 @@ public class NoticiaEnt {
     @NonNull
     @PrimaryKey
     private String notId;
-    private String notTittle, notCoverImage, notCreateDate, notDescription, notBody, notGame;
+    private String notTittle, notCoverImage;
+    private int notCreateDate;
+    private String notDescription, notBody, notGame;
 
 
-    public NoticiaEnt(@NonNull String notId, String notTittle, String notCoverImage, String notCreateDate, String notDescription, String notBody, String notGame) {
+    public NoticiaEnt(@NonNull String notId, String notTittle, String notCoverImage, int notCreateDate, String notDescription, String notBody, String notGame) {
         this.notId = notId;
         this.notTittle = notTittle;
         this.notCoverImage = notCoverImage;
@@ -55,11 +57,11 @@ public class NoticiaEnt {
     }
 
 
-    public String getNotCreateDate() {
+    public int getNotCreateDate() {
         return notCreateDate;
     }
 
-    public void setNotCreateDate(String notCreateDate) {
+    public void setNotCreateDate(int notCreateDate) {
         this.notCreateDate = notCreateDate;
     }
 

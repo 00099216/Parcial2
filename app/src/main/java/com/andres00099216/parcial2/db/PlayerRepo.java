@@ -13,10 +13,11 @@ import com.andres00099216.parcial2.API.Deserializadores.PlayerDes;
 import com.andres00099216.parcial2.API.NoticiasAPI;
 import com.andres00099216.parcial2.db.Entidades.PlayerEnt;
 import com.andres00099216.parcial2.db.daos.PlayerDao;
-import com.andres00099216.parcial2.modelo.Item_player;
+import com.andres00099216.parcial2.modelo.item_player;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.net.SocketTimeoutException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -30,76 +31,79 @@ import retrofit2.converter.gson.GsonConverterFactory;
  */
 
 public class PlayerRepo {
-    private PlayerDao playerDAO;
+    private PlayerDao playerDao;
     private String token;
     private Context context;
 
     public PlayerRepo(Application application) {
-        db database = db.getInstance(application);
-        playerDAO = database.playerDao();
-        SharedPreferences sharedPreferences = application.getSharedPreferences("logged", Context.MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "");
+        db base = db.getInstance(application);
+        playerDao = base.playerDao();
+        SharedPreferences sp = application.getSharedPreferences("logged", Context.MODE_PRIVATE);
+        token = sp.getString("token", "");
         context = application.getApplicationContext();
 
-        ConnectivityManager connectivityManager = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager cm = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
 
-        if (connectivityManager.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED){
-            getPlayersFromAPI();
-        }else {
-            Toast.makeText(application, "Couldn't refresh feed", Toast.LENGTH_SHORT).show();
+        if (cm.getNetworkInfo(ConnectivityManager.TYPE_MOBILE).getState() == NetworkInfo.State.CONNECTED) {
+            Gson gson = new GsonBuilder().registerTypeAdapter(item_player.class, new PlayerDes()).create();
+            Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(NoticiasAPI.ENDPOINT).
+                    addConverterFactory(GsonConverterFactory.create(gson));
+            Retrofit retrofit = retrofitBuilder.build();
+            NoticiasAPI apiGameNews = retrofit.create(NoticiasAPI.class);
+
+            Call<List<item_player>> playersListCall = apiGameNews.getPlayers("Beared " + token);
+            playersListCall.enqueue(new Callback<List<item_player>>() {
+                @Override
+                public void onResponse(Call<List<item_player>> call, Response<List<item_player>> response) {
+                    if (response.code() == 200) {
+                        for (item_player players : response.body()) {
+                            insert(new PlayerEnt(players.getId(), players.getAvatar(), players.getName(),
+                                    players.getBiografia(), players.getJuego()));
+                        }
+                    } else if (response.code() == 401) {
+
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<List<item_player>> call, Throwable t) {
+                    if (t instanceof SocketTimeoutException) {
+                        Toast.makeText(context, "Timed Out", Toast.LENGTH_SHORT).show();
+                    } else if (t instanceof Exception) {
+                        Toast.makeText(context, "Intentelo mas tarde", Toast.LENGTH_SHORT).show();
+                        t.printStackTrace();
+                    }
+                }
+
+            });
         }
 
     }
 
-    public LiveData<List<PlayerEnt>> getPlayer(){
-        return playerDAO.getPlayer();
-    }
-    public LiveData<List<PlayerEnt>> getPlayersByGame(String game){
-        return playerDAO.getPlayersByGame(game);
+    public LiveData<List<PlayerEnt>> getAllPlayers() {
+        return playerDao.getPlayer();
     }
 
-    public void getPlayersFromAPI(){
-        Gson gson = new GsonBuilder().registerTypeAdapter(Item_player.class, new PlayerDes()).create();
-        Retrofit.Builder retrofitBuilder = new Retrofit.Builder().baseUrl(NoticiasAPI.ENDPOINT).addConverterFactory(GsonConverterFactory.create(gson));
-        Retrofit retrofit = retrofitBuilder.build();
-        NoticiasAPI apiGameNews = retrofit.create(NoticiasAPI.class);
-
-        Call<List<Item_player>> playersListCall = apiGameNews.getItemPlayer("Beared " + token);
-        playersListCall.enqueue(new Callback<List<Item_player>>() {
-            @Override
-            public void onResponse(Call<List<Item_player>> call, Response<List<Item_player>> response) {
-                if (response.code() == 200){
-                    for (Item_player players : response.body()){
-                        insert(new PlayerEnt(players.getId(), players.getAvatar(), players.getName(), players.getBiografia(), players.getJuego()));
-                    }
-                }else if (response.code() == 401){
-                    Toast.makeText(context, "Session expired", Toast.LENGTH_SHORT).show();
-                }
-            }
-
-            @Override
-            public void onFailure(Call<List<Item_player>> call, Throwable t) {
-
-            }
-
-        });
+    public LiveData<List<PlayerEnt>> getPlayersByGame(String game) {
+        return playerDao.getPlayersByGame(game);
     }
 
-    public void insert(PlayerEnt playerEntity){
-        new InsertAsyncTask(playerDAO).execute(playerEntity);
+
+    public void insert(PlayerEnt playerEnt) {
+        new InsertAsyncTask(playerDao).execute(playerEnt);
     }
 
     private static class InsertAsyncTask extends AsyncTask<PlayerEnt, Void, Void> {
 
-        private PlayerDao myAsyncTaskPlayerDAO;
+        private PlayerDao asyncTaskPlayerDao;
 
-        InsertAsyncTask(PlayerDao dao){
-            myAsyncTaskPlayerDAO = dao;
+        InsertAsyncTask(PlayerDao dao) {
+            asyncTaskPlayerDao = dao;
         }
 
         @Override
-        protected Void doInBackground(PlayerEnt... playerEntity) {
-            myAsyncTaskPlayerDAO.insertPlayer(playerEntity);
+        protected Void doInBackground(PlayerEnt... playerEnts) {
+            asyncTaskPlayerDao.insert(playerEnts);
             return null;
         }
     }

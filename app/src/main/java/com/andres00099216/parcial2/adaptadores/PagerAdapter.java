@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -18,6 +19,8 @@ public class PagerAdapter extends FragmentPagerAdapter {
 
     public PagerAdapter(FragmentManager fm) {
         super(fm);
+        tl = new ArrayList<>();
+        fl = new ArrayList<>();
     }
 
     @Override
@@ -30,9 +33,10 @@ public class PagerAdapter extends FragmentPagerAdapter {
         return fl.size();
     }
 
-    public void addFragment(Fragment f, String t){
-        fl.add(f);
+    public void addFragment(String t, Fragment f) {
         tl.add(t);
+        fl.add(f);
+
     }
 
     @Override

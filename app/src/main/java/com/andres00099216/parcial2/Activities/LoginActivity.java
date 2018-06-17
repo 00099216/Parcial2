@@ -46,7 +46,7 @@ public class LoginActivity extends AppCompatActivity {
 
     public void Click() {
         if (usuario.getText().toString().equals("") || contraseña.getText().toString().equals("")) {
-            Toast.makeText(this, "Fields can't be empty", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Debes completar todos los campos", Toast.LENGTH_SHORT).show();
 
         } else {
 
@@ -61,12 +61,12 @@ public class LoginActivity extends AppCompatActivity {
                 public void onResponse(Call<String> call, Response<String> response) {
                     System.out.println(response.code());
                     if (response.code() == 200) {
-                        Toast.makeText(LoginActivity.this, "Exito", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Sesión iniciada con exito", Toast.LENGTH_SHORT).show();
                         TokenGuardado(response.body());
                         startMainActivity();
                     }else if (response.code() == 401){
 
-                        Toast.makeText(LoginActivity.this, "Error: wrong credentials", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(LoginActivity.this, "Las credenciales no son correctas", Toast.LENGTH_SHORT).show();
                     }
                 else {
 

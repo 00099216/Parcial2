@@ -1,12 +1,13 @@
 package com.andres00099216.parcial2.db.Entidades;
 
+import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
 /**
  * Created by Andres on 16/6/2018.
  */
-
+@Entity
 public class GameEnt {
     public GameEnt(String game_entity_name) {
         this.game_entity_name = game_entity_name;
